@@ -1,0 +1,50 @@
+{% extends 'psychologist/index.html' %}
+{% block body %}
+
+<div class="container py-5">
+    <div class="row justify-content-center g-4 mt-5">
+
+        {% for i in data %}
+        <div class="col-lg-3 col-md-3 col-sm-6">
+            <div class="card text-center shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <!-- Avatar -->
+                    <img src="/static/admin.png"
+                         class="rounded-circle mb-3"
+                         width="80" height="200">
+
+                    <h5 class="card-title text-primary">
+                        {{ i.name }}
+                    </h5>
+
+                    <p class="card-text text-muted small">
+                        {{ i.email }}
+                    </p>
+                    <p class="card-text text-muted small">
+                        {{ i.Phone }}
+                    </p>
+                    <p class="card-text text-muted small">
+                        {{ i.place }}
+                    </p>
+{#                    <p>#}
+{#                        {{ i.LOGIN.id }}#}
+{#                    </p>#}
+
+
+
+                    <a href="/myapp/psy_chat_to_user/{{ i.LOGIN.id }}"
+                       class="btn btn-primary rounded-pill px-4">
+                        Chat
+                    </a>
+
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+
+    </div>
+</div>
+
+{% endblock %}

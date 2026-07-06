@@ -1,0 +1,109 @@
+
+{% extends 'admin/index.html' %}
+{% block body %}<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title> — Review Management</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+</head>
+<body>
+  <div class="container mt-5">
+    <h2 class="mb-4">Reviews</h2>
+    <table id="reviewsTable" class="table table-striped table-bordered" style="width:100%">
+      <thead>
+      <th>Sl No</th>
+      <th>rating</th>
+      <th>date</th>
+      <th>review</th>
+      </thead>
+      {% for i in data %}
+
+      <tr>
+      <td>{{ forloop.counter }}</td>
+       <td>{{ i.rating}}</td>
+       <td>{{ i.date }}</td>
+       <td>{{ i.review }}</td>
+      </tr>
+
+        {% endfor %}
+            </thead>
+
+    </table>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+  <script>
+    let table;
+
+    function renderActions(id, status) {
+      const approveDisabled = status === 'approved' ? 'disabled' : '';
+      return `
+        <button class="btn btn-sm btn-success me-1" onclick="approveReview('${id}')" ${approveDisabled}>Approve</button>
+        <button class="btn btn-sm btn-danger" onclick="deleteReview('${id}')">Delete</button>
+      `;
+    }
+
+    async function fetchReviews() {
+      const res = await fetch('/api/reviews');
+      if (!res.ok) return [];
+      return res.json();
+    }
+
+    async function loadTable() {
+      const reviews = await fetchReviews();
+      const rows = reviews.map(r => ([
+        r.id,
+        r.user,
+        r.product,
+        r.rating,
+        r.text,
+        new Date(r.date).toLocaleString(),
+        r.status,
+        renderActions(r.id, r.status)
+      ]));
+
+      if (table) {
+        table.clear();
+        table.rows.add(rows);
+        table.draw();
+      } else {
+        table = $('#reviewsTable').DataTable({
+          data: rows,
+          columns: [
+            { title: 'ID' },
+            { title: 'User' },
+            { title: 'Product' },
+            { title: 'Rating' },
+            { title: 'Review' },
+            { title: 'Date' },
+            { title: 'Status' },
+            { title: 'Actions', orderable: false }
+          ]
+        });
+      }
+    }
+
+    async function approveReview(id) {
+      if (!confirm('Approve this review?')) return;
+      const res = await fetch(`/api/reviews/${id}/approve`, { method: 'PUT' });
+      if (res.ok) await loadTable();
+      else alert('Failed to approve');
+    }
+
+    async function deleteReview(id) {
+      if (!confirm('Delete this review permanently?')) return;
+      const res = await fetch(`/api/reviews/${id}`, { method: 'DELETE' });
+      if (res.ok) await loadTable();
+      else alert('Failed to delete');
+    }
+
+    $(document).ready(function () {
+      loadTable();
+    });
+  </script>
+</body>
+</html>
+{% endblock %}

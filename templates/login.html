@@ -1,0 +1,221 @@
+{#<!DOCTYPE html>#}
+{#<html lang="en">#}
+{#<head>#}
+{#    <meta charset="UTF-8">#}
+{#    <meta name="viewport" content="width=device-width, initial-scale=1.0">#}
+{#    <title>Login Page</title>#}
+{#    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">#}
+{#   #}
+{#</head>#}
+{#{% extends 'landingpage.html' %}#}
+{#{% block body %}#}
+{#<body>#}
+{#    <div class="container">#}
+{#        <div class="row justify-content-center">#}
+{#            <div class="col-md-6">#}
+{#                <h2 class="text-center">Login</h2>#}
+{#                <form method="post" action="/myapp/login_post/">{% csrf_token %}#}
+{#                    <div class="form-group">#}
+{#                        <label for="username">Username</label>#}
+{#                        <input type="text" class="form-control" name="username" id="username" placeholder="Enter your username" required>#}
+{#                    </div>#}
+{#                    <div class="form-group">#}
+{#                        <label for="password">Password</label>#}
+{#                        <input type="password" class="form-control" name="password" id="password" placeholder="Enter your password" required>#}
+{#                    </div>#}
+{#                    <button type="submit" class="btn btn-primary btn-block">Login</button>#}
+{#                    <a href="/myapp/register_get/">Register</a>#}
+{#                </form>#}
+{#                <div class="text-center mt-3">#}
+{#                    <a href="#">Forgot Password?</a>#}
+{#                </div>#}
+{#            </div>#}
+{#        </div>#}
+{#    </div>#}
+{#    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>#}
+{#    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>#}
+{#    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>#}
+{#</body>#}
+{#{% endblock %}#}
+
+
+
+
+
+{% extends 'landingpage.html' %}
+{% block body %}
+
+<style>
+    body {
+        min-height: 100vh;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .login-wrapper {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .login-box {
+        background: #ffffff;
+        border-radius: 20px;
+        padding: 45px 40px;
+        width: 100%;
+        max-width: 420px;
+        box-shadow: 0 20px 45px rgba(0, 0, 0, 0.18);
+        animation: fadeIn 0.6s ease;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(15px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .login-title {
+        text-align: center;
+        font-weight: 600;
+        font-size: 26px;
+        color: #2c3e50;
+        margin-bottom: 30px;
+    }
+
+    label {
+        font-weight: 500;
+        font-size: 14px;
+        color: #555;
+    }
+
+    .form-control {
+        height: 46px;
+        border-radius: 12px;
+        border: 1px solid #ddd;
+        padding: 10px 14px;
+        font-size: 14px;
+        transition: all 0.3s ease;
+    }
+
+    .form-control:focus {
+        border-color: #667eea;
+        box-shadow: 0 0 0 0.15rem rgba(102, 126, 234, 0.25);
+    }
+
+    .btn-login {
+        width: 100%;
+        height: 46px;
+        border-radius: 14px;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        border: none;
+        color: #fff;
+        font-weight: 500;
+        font-size: 15px;
+        margin-top: 10px;
+        transition: all 0.3s ease;
+    }
+
+    .btn-login:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+    }
+
+    .login-links {
+        text-align: center;
+        margin-top: 18px;
+        font-size: 14px;
+    }
+
+    .login-links a {
+        color: #667eea;
+        text-decoration: none;
+        font-weight: 500;
+    }
+
+    .login-links a:hover {
+        text-decoration: underline;
+    }
+
+    .divider {
+        text-align: center;
+        margin: 25px 0;
+        font-size: 13px;
+        color: #999;
+        position: relative;
+    }
+
+    .divider::before,
+    .divider::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        width: 40%;
+        height: 1px;
+        background: #e0e0e0;
+    }
+
+    .divider::before {
+        left: 0;
+    }
+
+    .divider::after {
+        right: 0;
+    }
+</style>
+
+<div class="login-wrapper">
+    <div class="login-box">
+
+        <div class="login-title">Welcome 👋</div>
+
+        <form method="post" action="/myapp/login_post/">
+            {% csrf_token %}
+
+            <div class="mb-3">
+                <label for="username">Username</label>
+                <input
+                    type="text"
+                    class="form-control"
+                    name="username"
+                    id="username"
+                    placeholder="Enter your username"
+                    required>
+            </div>
+
+            <div class="mb-3">
+                <label for="password">Password</label>
+                <input
+                    type="password"
+                    class="form-control"
+                    name="password"
+                    id="password"
+                    placeholder="Enter your password"
+                    required>
+            </div>
+
+            <button type="submit" class="btn btn-login">
+                Login
+            </button>
+        </form>
+
+        <div class="login-links">
+            <a href="#">Forgot Password?</a>
+        </div>
+
+        <div class="divider">OR</div>
+
+        <div class="login-links">
+            <a href="/myapp/register_get/">Create a new account</a>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}
+

@@ -1,0 +1,130 @@
+{% extends 'admin/index.html' %}
+{% block body %}<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Registration Data Table</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+  <style>
+    .img-thumbnail {
+      width: 50px;
+      height: 50px;
+    }
+    .filter-box {
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container mt-5">
+    <h2 class="mb-4">Registered Users</h2>
+
+    <!-- Date Filter Inputs -->
+    <div class="row filter-box">
+      <div class="col-md-4">
+        <label>From Date:</label>
+        <input type="date" id="minDate" class="form-control">
+      </div>
+      <div class="col-md-4">
+        <label>To Date:</label>
+        <input type="date" id="maxDate" class="form-control">
+      </div>
+    </div>
+
+    <table id="registrationTable" class="table table-striped table-bordered">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Name</th>
+          <th>Gender</th>
+          <th>DOB</th>
+          <th>Email</th>
+          <th>Phone</th>
+          <th>Place</th>
+          <th>City</th>
+          <th>State</th>
+          <th>Pincode</th>
+          <th>Photo</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Sample Data Rows -->
+        <tr>
+          <td>1</td>
+          <td> </td>
+          <td> </td>
+          <td> </td>
+          <td> </td>
+          <td> </td>
+          <td> </td>
+          <td> </td>
+          <td> </td>
+          <td> </td>
+          <td><img src="https://via.placeholder.com/50" class="img-thumbnail" /></td>
+          <td>
+            <button class="btn btn-sm btn-primary">Edit</button>
+            <button class="btn btn-sm btn-danger">Delete</button>
+          </td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td> </td>
+          <td> </td>
+          <td> </td>
+          <td> </td>
+          <td> </td>
+          <td> </td>
+          <td> </td>
+          <td> </td>
+          <td> </td>
+          <td><img src="https://via.placeholder.com/50" class="img-thumbnail" /></td>
+          <td>
+            <button class="btn btn-sm btn-primary">Edit</button>
+            <button class="btn btn-sm btn-danger">Delete</button>
+          </td>
+        </tr>
+        <!-- More rows as needed -->
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+
+  <script>
+    // Custom filtering function for date range
+    $.fn.dataTable.ext.search.push(function (settings, data, dataIndex) {
+      let min = $('#minDate').val();
+      let max = $('#maxDate').val();
+      let dob = data[3]; // Index of DOB column
+
+      if (!min && !max) return true;
+
+      const date = new Date(dob);
+      const minDate = min ? new Date(min) : null;
+      const maxDate = max ? new Date(max) : null;
+
+      if (
+        (!minDate || date >= minDate) &&
+        (!maxDate || date <= maxDate)
+      ) {
+        return true;
+      }
+      return false;
+    });
+
+    $(document).ready(function () {
+      const table = $('#registrationTable').DataTable();
+
+      // Event listeners for date range filtering
+      $('#minDate, #maxDate').on('change', function () {
+        table.draw();
+      });
+    });
+  </script>
+</body>
+</html>
+{% endblock %}

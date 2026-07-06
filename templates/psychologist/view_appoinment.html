@@ -1,0 +1,57 @@
+{% extends 'psychologist/index.html' %}
+{% block body %}
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>View Schedules</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+    <h2 class="mb-4">View Appoinment</h2>
+
+
+
+
+      <table class="table table-striped" >
+        <thead>
+          <tr>
+            <th>Sl No</th>
+            <th>User Name</th>
+            <th>User Phone</th>
+            <th>Psychologist Name</th>
+            <th>Schedule Date</th>
+            <th>Schedule From Time</th>
+            <th>Schedule To Time</th>
+            <th>Amount</th>
+            <th>Approve/Reject</th>
+          </tr>
+        </thead>
+            {% for i in data %}
+        <tbody>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ i.USER.name }}</td>
+            <td>{{ i.USER.phone }}</td>
+            <td>{{ i.name }}</td>
+            <td>{{ i.schedule.date}}</td>
+            <td>{{ i.schedule.from_time }}</td>
+            <td>{{ i.schedule.to_time }}</td>
+            <td>{{ i.amount }}</td>
+            <td>
+
+                <a href="/myapp/approve_appointment/{{ i.id }}" class="btn btn-success">Approve</a><br>
+                <a href="/myapp/reject_appointment/{{ i.id }}" onclick="return confirm('Are you sure')" class="btn btn-danger">Reject</a><br>
+            </td>
+            <td>
+
+                <a href="/myapp/psy_bookings_get/{{ i.id }}"  class="btn btn-primary">Bookings</a><br>
+            </td>
+
+        </tbody>
+          {% endfor %}
+      </table>
+
+  </div>
+</body>
+</html>
+{% endblock %}
